@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+
 namespace Morgenmadsbuffeten
 {
     public class Startup
@@ -30,10 +31,22 @@ namespace Morgenmadsbuffeten
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy( 
+                    "Receptionist", 
+                    policyBuilder => policyBuilder 
+                     .RequireClaim("Receptionist")); 
+
+                options.AddPolicy( 
+                    "Waiter", 
+                    policyBuilder => policyBuilder 
+                        .RequireClaim("Waiter")); 
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
