@@ -23,6 +23,11 @@ namespace Morgenmadsbuffeten.Controllers
             return View();
         }
 
+        public IActionResult Restaurant()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

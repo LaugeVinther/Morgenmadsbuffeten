@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Restaurant";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Restaurant</h1>
+    <p class="lead">På denne side kan du checke gæster ind til morgenmad.</p>
+</div>
+<div class="mt-3 mb-3">
+    <h5>Dagens dato: <strong>@DateTime.Now.Date.ToString("dd/MM/yyyy")</strong></h5>
+</div>
+
+<form action="">
+    <label for="roomNumber">Værelsesnummer</label>
+    <input type="number" class="form-control mb-3" id="roomNumber">
+    <label for="roomNumber">Voksne</label>
+    <input type="number" class="form-control mb-3" id="adults">
+    <label for="roomNumber">Børn</label>
+    <input type="number" class="form-control mb-3" id="children">
+    <input class="mt-3" type="submit" value="Submit">
+</form> 
