@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Morgenmadsbuffeten.Data;
 using Morgenmadsbuffeten.Models;
 
 namespace Morgenmadsbuffeten.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context)
         {
-            _logger = logger;
+            this.context = context;
         }
 
         public IActionResult Index()
@@ -24,24 +23,33 @@ namespace Morgenmadsbuffeten.Controllers
             return View("Kitchen");
         }
 
-        [Authorize("ReceptionistPolicy")]
-        public IActionResult Reception()
+        //[Authorize("ReceptionistPolicy")]
+        public async Task<IActionResult> Reception()
         {
-            return View();
+            var reservations = (await context.Reservations.ToListAsync()).Where(x => x.Date.Date == DateTime.Today);
+            return View(reservations);
         }
 
-        [Authorize("WaiterPolicy")]
+        //[Authorize("WaiterPolicy")]
         public IActionResult Restaurant()
         {
             return View();
         }
 
-        public IActionResult Kitchen()
+        //[Authorize("WaiterPolicy")]
+        [HttpPost]
+        public async Task<IActionResult> Restaurant(Reservation reservation)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                context.Add(reservation);
+                await context.SaveChangesAsync();
+                return RedirectToAction("Restaurant"); // Return to the same page to be ready to check in more guests
+            }
+            return View(reservation);
         }
 
-        public IActionResult Privacy()
+        public IActionResult Kitchen()
         {
             return View();
         }

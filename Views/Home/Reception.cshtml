@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Reservation>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -39,21 +41,37 @@
     <input type="date" name="dateofbirth" id="datePicker">
 </div>
 
-<div class="row">
-    <div class="col-4">
-        <div class="list-group" id="list-tab" role="tablist">
-            <a class="list-group-item list-group-item-action active" id="room201" data-toggle="list" href="#room201_info" role="tab">Værelse 201</a>
-            <a class="list-group-item list-group-item-action" id="room300" data-toggle="list" href="#room300_info" role="tab">Værelse 300</a>
-            <a class="list-group-item list-group-item-action" id="room341" data-toggle="list" href="#room341_info" role="tab">Værelse 341</a>
-            <a class="list-group-item list-group-item-action" id="room400" data-toggle="list" href="#room400_info" role="tab">Værelse 400</a>
-        </div>
-    </div>
-    <div class="col-8">
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="room201_info" role="tabpanel" aria-labelledby="list-home-list">Voksne: 2 <br />Børn: 2</div>
-            <div class="tab-pane fade" id="room300_info" role="tabpanel" aria-labelledby="list-profile-list">Voksne: 1<br />Børn: 1</div>
-            <div class="tab-pane fade" id="room341_info" role="tabpanel" aria-labelledby="list-messages-list">Voksne: 2<br />Børn: 0</div>
-            <div class="tab-pane fade" id="room400_info" role="tabpanel" aria-labelledby="list-settings-list">Voksne: 2 <br />Børn: 3 </div>
-        </div>
-    </div>
-</div>
+<h3>Reservationer</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adults)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Children)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Adults)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Children)
+                </td>                
+            </tr>
+        }
+    </tbody>
+</table>
