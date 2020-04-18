@@ -26,8 +26,8 @@ namespace Morgenmadsbuffeten.Controllers
         //[Authorize("ReceptionistPolicy")]
         public async Task<IActionResult> Reception()
         {
-            var reservations = (await context.Reservations.ToListAsync()).Where(x => x.Date.Date == DateTime.Today);
-            return View(reservations);
+            var checkIns = (await context.CheckIns.ToListAsync()).Where(x => x.Date.Date == DateTime.Today);
+            return View(checkIns);
         }
 
         //[Authorize("WaiterPolicy")]
@@ -38,15 +38,15 @@ namespace Morgenmadsbuffeten.Controllers
 
         //[Authorize("WaiterPolicy")]
         [HttpPost]
-        public async Task<IActionResult> Restaurant(Reservation reservation)
+        public async Task<IActionResult> Restaurant(CheckIn checkIn)
         {
             if (ModelState.IsValid)
             {
-                context.Add(reservation);
+                context.Add(checkIn);
                 await context.SaveChangesAsync();
                 return RedirectToAction("Restaurant"); // Return to the same page to be ready to check in more guests
             }
-            return View(reservation);
+            return View(checkIn);
         }
 
         public IActionResult Kitchen()

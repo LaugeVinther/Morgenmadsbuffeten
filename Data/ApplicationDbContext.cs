@@ -14,6 +14,6 @@ namespace Morgenmadsbuffeten.Data
         {
         }
 
-        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<CheckIn> CheckIns { get; set; }
     }
 }
