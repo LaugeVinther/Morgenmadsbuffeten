@@ -37,15 +37,15 @@ namespace Morgenmadsbuffeten
             services.AddRazorPages();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy( 
-                    "Receptionist", 
-                    policyBuilder => policyBuilder 
-                     .RequireClaim("Receptionist")); 
+                options.AddPolicy(
+                    "ReceptionistPolicy",
+                    policyBuilder => policyBuilder
+                     .RequireClaim("Claim", "Receptionist"));
 
-                options.AddPolicy( 
-                    "Waiter", 
-                    policyBuilder => policyBuilder 
-                        .RequireClaim("Waiter")); 
+                options.AddPolicy(
+                    "WaiterPolicy",
+                    policyBuilder => policyBuilder
+                        .RequireClaim("Claim", "Waiter"));
             });
         }
 

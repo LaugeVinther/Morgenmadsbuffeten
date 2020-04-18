@@ -24,13 +24,13 @@ namespace Morgenmadsbuffeten.Controllers
             return View();
         }
 
-        [Authorize("Receptionist")]
+        [Authorize("ReceptionistPolicy")]
         public IActionResult Reception()
         {
             return View();
         }
-        
-        [Authorize("Waiter")]
+
+        [Authorize("WaiterPolicy")]
         public IActionResult Restaurant()
         {
             return View();
