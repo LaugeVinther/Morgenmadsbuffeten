@@ -1,8 +1,4 @@
-﻿@model IEnumerable<CheckIn>
-
-@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model ReceptionModel
 
 <style>
     [type="date"] {
@@ -31,35 +27,28 @@
     }
 </style>
 
-
 <div class="text-center">
     <h1 class="display-4">Reception</h1>
-    <p class="lead">På denne side kan du se hvor mange der har bestilt morgenmad, samt hvor mange der har spist deres morgenmad.</p>
-</div>
-<div class="mt-3 mb-3">
-    <label for="datePicker">Vælg dato</label>
-    <input type="date" name="dateofbirth" id="datePicker">
 </div>
 
-<h3>Reservationer</h3>
-
+<h3>Checket ind til morgenmad i dag, @DateTime.Now.Date.ToString("dd/MM/yyyy")</h3>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RoomNumber)
+                @Html.DisplayNameFor(model => model.CheckIns.FirstOrDefault().RoomNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Adults)
+                @Html.DisplayNameFor(model => model.CheckIns.FirstOrDefault().Adults)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Children)
+                @Html.DisplayNameFor(model => model.CheckIns.FirstOrDefault().Children)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.CheckIns)
         {
             <tr>
                 <td>
@@ -70,8 +59,40 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Children)
-                </td>                
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<h3>Bestil morgenmad</h3>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="MakeReservation" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Reservation.Date" class="control-label"></label>
+                <input asp-for="Reservation.Date" class="form-control" />
+                <span asp-validation-for="Reservation.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reservation.NumberOfAdults" class="control-label"></label>
+                <input asp-for="Reservation.NumberOfAdults" class="form-control" />
+                <span asp-validation-for="Reservation.NumberOfAdults" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reservation.NumberOfChildren" class="control-label"></label>
+                <input asp-for="Reservation.NumberOfChildren" class="form-control" />
+                <span asp-validation-for="Reservation.NumberOfChildren" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Bestil morgenmad" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
