@@ -21,7 +21,7 @@ namespace Morgenmadsbuffeten.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("Kitchen");
         }
 
         [Authorize("ReceptionistPolicy")]
