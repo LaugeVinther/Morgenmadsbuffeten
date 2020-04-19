@@ -40,12 +40,12 @@ namespace Morgenmadsbuffeten
                 options.AddPolicy(
                     "ReceptionistPolicy",
                     policyBuilder => policyBuilder
-                     .RequireClaim("Claim", "Receptionist"));
+                     .RequireClaim("Claim", "Receptionist", "Admin"));
 
                 options.AddPolicy(
                     "WaiterPolicy",
                     policyBuilder => policyBuilder
-                        .RequireClaim("Claim", "Waiter"));
+                        .RequireClaim("Claim", "Waiter", "Admin"));
             });
         }
 

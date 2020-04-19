@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Morgenmadsbuffeten.Data;
@@ -29,9 +30,9 @@ namespace Morgenmadsbuffeten.Controllers
         {
             var model = await GetReservationAndCheckIns();
             return View(model);
-        }       
+        }
 
-        //[Authorize("ReceptionistPolicy")]
+        [Authorize("ReceptionistPolicy")]
         public async Task<IActionResult> Reception()
         {
             var checkIns = (await context.CheckIns.ToListAsync()).Where(x => x.Date.Date == DateTime.Today);
@@ -42,7 +43,7 @@ namespace Morgenmadsbuffeten.Controllers
             return View(receptionModel);
         }
 
-        //[Authorize("ReceptionistPolicy")]
+        [Authorize("ReceptionistPolicy")]
         [HttpPost]
         public async Task<IActionResult> MakeReservation(Reservation reservation)
         {
@@ -52,16 +53,16 @@ namespace Morgenmadsbuffeten.Controllers
                 await context.SaveChangesAsync();
             }
             var model = await GetReservationAndCheckIns();
-            return View("Kitchen", model);
+            return RedirectToAction("Kitchen", model);
         }
 
-        //[Authorize("WaiterPolicy")]
+        [Authorize("WaiterPolicy")]
         public IActionResult Restaurant()
         {
             return View();
         }
 
-        //[Authorize("WaiterPolicy")]
+        [Authorize("WaiterPolicy")]
         [HttpPost]
         public async Task<IActionResult> CheckIn(CheckIn checkIn)
         {
