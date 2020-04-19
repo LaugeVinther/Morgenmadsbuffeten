@@ -6,27 +6,37 @@
     var expectedNumberOfChildren = Model.Reservations.Sum(x => x.NumberOfChildren);
     var checkedInAdults = Model.CheckIns.Sum(x => x.Adults);
     var checkedInChildren = Model.CheckIns.Sum(x => x.Children);
-    var notCheckedIn = expectedNumberOfGuests - (checkedInAdults + checkedInChildren);
+    var adultsNotCheckedIn = expectedNumberOfAdults - checkedInAdults;
+    var childrenNotCheckedIn = expectedNumberOfChildren - checkedInChildren;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Køkken</h1>
-    <p class="lead">På denne side kan du få oplyst forventede antal gæster, hvor mange der er checket ind</p>
-</div>
-<div class="mt-3 mb-3">
-    <h5>Dagens dato: <strong>@DateTime.Now.Date.ToString("dd/MM/yyyy")</strong></h5>
-</div>
-<div>
-    <h5>Forventede gæster til morgenmad</h5>
-    <p>@expectedNumberOfAdults voksne og @expectedNumberOfChildren børn - i alt: @expectedNumberOfGuests </p>
-</div>
+    <div class="text-center">
+        <div>
+            <h1 class="display-4">Køkken</h1>
+            <p class="lead">På denne side kan du få oplyst forventede antal gæster, hvor mange der er checket ind</p>
+        </div>
+        <form asp-action="Kitchen">
+            <div class="form-group">
+                <input type="submit" value="OPDATER" class="btn btn-primary btn-lg" />
+            </div>
+        </form>        
+        <div class="mt-3 mb-3">
+            <h5>Dagens dato: <strong>@DateTime.Now.Date.ToString("dd/MM/yyyy")</strong></h5>
+        </div>
+        <div>
+            <h5>Forventede gæster til morgenmad</h5>
+            <p>@expectedNumberOfAdults voksne og @expectedNumberOfChildren børn - i alt: @expectedNumberOfGuests </p>
+        </div>
 
-<div>
-    <h5>Indtjekninger</h5>
-    <p>@checkedInAdults voksne og @checkedInChildren børn</p>
-</div>
+        <div>
+            <h5>Indtjekninger</h5>
+            <p>@checkedInAdults voksne og @checkedInChildren børn</p>
+        </div>
 
-<div>
-    <h5>Antal gæster der ikke er checket ind: @notCheckedIn</h5>
-</div>
+        <div>
+            <h5>Antal gæster der ikke er checket ind, som er tilmeldt morgenmad</h5>
+            <p>@adultsNotCheckedIn voksne og @childrenNotCheckedIn børn</p>
+        </div>
+    </div>
+
 
