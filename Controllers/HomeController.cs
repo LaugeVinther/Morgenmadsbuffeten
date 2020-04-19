@@ -38,7 +38,8 @@ namespace Morgenmadsbuffeten.Controllers
             var checkIns = (await context.CheckIns.ToListAsync()).Where(x => x.Date.Date == DateTime.Today);
             ReservationAndCheckIns receptionModel = new ReservationAndCheckIns
             {
-                CheckIns = checkIns
+                CheckIns = checkIns,
+                Reservations = new List<Reservation>()
             };
             return View(receptionModel);
         }
@@ -75,12 +76,6 @@ namespace Morgenmadsbuffeten.Controllers
             return View(checkIn);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
         private async Task<ReservationAndCheckIns> GetReservationAndCheckIns()
         {
             var checkIns = (await context.CheckIns.ToListAsync()).Where(x => x.Date.Date == DateTime.Today);
@@ -88,16 +83,22 @@ namespace Morgenmadsbuffeten.Controllers
             {
                 checkIns = new List<CheckIn>();
             }
-            Reservation reservation = (await context.Reservation.ToListAsync()).Where(x => x.Date.Date == DateTime.Today).FirstOrDefault();
-            if (reservation == null)
+            var reservations = (await context.Reservation.ToListAsync()).Where(x => x.Date.Date == DateTime.Today);
+            if (reservations == null)
             {
-                reservation = new Reservation();
+                reservations = new List<Reservation>();
             }
             return new ReservationAndCheckIns
             {
                 CheckIns = checkIns,
-                Reservation = reservation
+                Reservations = reservations
             };
         }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }        
     }
 }

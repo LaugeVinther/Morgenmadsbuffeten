@@ -1,9 +1,9 @@
 ﻿@model ReservationAndCheckIns
 
 @{
-    var expectedNumberOfGuests = Model.Reservation.NumberOfChildren + Model.Reservation.NumberOfAdults;
-    var expectedNumberOfAdults = Model.Reservation.NumberOfAdults;
-    var expectedNumberOfChildren = Model.Reservation.NumberOfChildren;
+    var expectedNumberOfGuests = Model.Reservations.Sum(x => x.NumberOfChildren)+ Model.Reservations.Sum(x => x.NumberOfAdults);
+    var expectedNumberOfAdults = Model.Reservations.Sum(x => x.NumberOfAdults);
+    var expectedNumberOfChildren = Model.Reservations.Sum(x => x.NumberOfChildren);
     var checkedInAdults = Model.CheckIns.Sum(x => x.Adults);
     var checkedInChildren = Model.CheckIns.Sum(x => x.Children);
     var notCheckedIn = expectedNumberOfGuests - (checkedInAdults + checkedInChildren);
