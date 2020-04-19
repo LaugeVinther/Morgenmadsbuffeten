@@ -1,10 +1,32 @@
-﻿
+﻿@model ReservationAndCheckIns
+
 @{
-    ViewData["Title"] = "Kitchen";
+    var expectedNumberOfGuests = Model.Reservation.NumberOfChildren + Model.Reservation.NumberOfAdults;
+    var expectedNumberOfAdults = Model.Reservation.NumberOfAdults;
+    var expectedNumberOfChildren = Model.Reservation.NumberOfChildren;
+    var checkedInAdults = Model.CheckIns.Sum(x => x.Adults);
+    var checkedInChildren = Model.CheckIns.Sum(x => x.Children);
+    var notCheckedIn = expectedNumberOfGuests - (checkedInAdults + checkedInChildren);
 }
 
 <div class="text-center">
     <h1 class="display-4">Køkken</h1>
-    <p class="lead">På denne side kan du få oplyst forventede antal gæster, hvor mange der er checket ind  </p>
+    <p class="lead">På denne side kan du få oplyst forventede antal gæster, hvor mange der er checket ind</p>
+</div>
+<div class="mt-3 mb-3">
+    <h5>Dagens dato: <strong>@DateTime.Now.Date.ToString("dd/MM/yyyy")</strong></h5>
+</div>
+<div>
+    <h5>Forventede gæster til morgenmad</h5>
+    <p>@expectedNumberOfAdults voksne og @expectedNumberOfChildren børn - i alt: @expectedNumberOfGuests </p>
+</div>
+
+<div>
+    <h5>Indtjekninger</h5>
+    <p>@checkedInAdults voksne og @checkedInChildren børn</p>
+</div>
+
+<div>
+    <h5>Antal gæster der ikke er checket ind: @notCheckedIn</h5>
 </div>
 
